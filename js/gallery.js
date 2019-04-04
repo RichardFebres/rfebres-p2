@@ -12,7 +12,7 @@
   
 
 // example code from mr doob : http://mrdoob.com/lab/javascript/requestanimationframe/
-
+/*
 animate();
 
 var mLastFrameTime = 0;
@@ -29,60 +29,51 @@ function animate() {
 		mLastFrameTime = currentTime;
 	}
 }
-
+*/
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
-
+/*
 function swapPhoto() {
-	//Add code here to access the #slideShow element.
-	//Access the img element and replace its source
-	//with a new image from your images array which is loaded 
-	//from the JSON string
-	console.log('swap photo');
+
+}
+*/
+
+function GalleryImage(imgLocation, description, date, imgPath) {
+    this.imgLocation = imgLocation;
+    this.description = description;
+    this.date = date;
+    this.imgPath = imgPath;
 }
 
-// Counter for the mImages array
-var mCurrentIndex = 0;
+let myRequest = new XMLHttpRequest();
 
-// XMLHttpRequest variable
-var mRequest = new XMLHttpRequest();
+let myUrl = "images.json";
 
-// Array holding GalleryImage objects (see below).
-var mImages = [];
+let myImages = [];
 
-// Holds the retrived JSON information
-var mJson;
+myRequest.onreadystatechange = function() {
+    if (myRequest.readyState === 4 && myRequest.status === 200) {
+        try {
+            let myJson = JSON.parse(myRequest.responseText);
+            console.log(myJson);
+            for (let i = 0; i < myJson.images.length - 1; i++) {
+                let imageToAdd = new GalleryImage(myJson.images[i].imgPath, myJson.images[i].imgLocation,
+                    myJson.images[i].description, myJson.images[i].date);
+                imageToAdd.imgPath = myJson.images[i].imgPath;
+                imageToAdd.imgLocation = myJson.images[i].imgLocation;
+                imageToAdd.description = myJson.images[i].description;
+                imageToAdd.date = myJson.images[i].date;
+                myImages.push(imageToAdd);
+                console.log(myImages);
+            }
 
-// URL for the JSON to load by default
-// Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
-var mUrl = 'insert_url_here_to_image_json';
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+};
 
+console.log(myRequest);
 
-//You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
-//@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
-function makeGalleryImageOnloadCallback(galleryImage) {
-	return function(e) {
-		galleryImage.img = e.target;
-		mImages.push(galleryImage);
-	}
-}
+myRequest.open("GET", myUrl, true);
+myRequest.send();
 
-$(document).ready( function() {
-	
-	// This initially hides the photos' metadata information
-	$('.details').eq(0).hide();
-	
-});
-
-window.addEventListener('load', function() {
-	
-	console.log('window loaded');
-
-}, false);
-
-function GalleryImage() {
-	//implement me as an object to hold the following data about an image:
-	//1. location where photo was taken
-	//2. description of photo
-	//3. the date when the photo was taken
-	//4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
-}
