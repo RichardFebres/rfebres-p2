@@ -12,11 +12,11 @@
   
 
 // example code from mr doob : http://mrdoob.com/lab/javascript/requestanimationframe/
-/*
+
 animate();
 
 var mLastFrameTime = 0;
-var mWaitTime = 5000; //time in ms
+var mWaitTime = 1000; //time in ms
 function animate() {
     requestAnimFrame( animate );
 	var currentTime = new Date().getTime();
@@ -29,13 +29,30 @@ function animate() {
 		mLastFrameTime = currentTime;
 	}
 }
-*/
+
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
-/*
+
+let myCurrentIndex = -1;
+
+window.addEventListener("load", function () {
+    console.log("Window Loaded");
+
+}, false);
+
 function swapPhoto() {
 
+    if (myCurrentIndex < myImages.length - 1) {
+        myCurrentIndex++;
+    } else {
+        myCurrentIndex = 0;
+    }
+
+        let img = $("#slideShow").find(".photoHolder").children("img").attr("src", myImages[myCurrentIndex].imgPath);
+        let location = $(".details").find(".location").text(myImages[myCurrentIndex].imgLocation);
+        let description = $(".details").find(".description").text(myImages[myCurrentIndex].description);
+        let date = $(".details").find(".date").text(myImages[myCurrentIndex].date);
+
 }
-*/
 
 function GalleryImage(imgLocation, description, date, imgPath) {
     this.imgLocation = imgLocation;
@@ -72,8 +89,21 @@ myRequest.onreadystatechange = function() {
     }
 };
 
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    let params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+    return params;
+}
+
+let GET = getQueryParams(document.location.search);
+
 console.log(myRequest);
 
 myRequest.open("GET", myUrl, true);
 myRequest.send();
-
