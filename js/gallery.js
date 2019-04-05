@@ -16,7 +16,7 @@
 animate();
 
 var mLastFrameTime = 0;
-var mWaitTime = 1000; //time in ms
+var mWaitTime = 5000; //time in ms
 function animate() {
     requestAnimFrame( animate );
 	var currentTime = new Date().getTime();
@@ -39,6 +39,32 @@ window.addEventListener("load", function () {
 
 }, false);
 
+function nextPhoto() {
+    if (myCurrentIndex !== myImages.length - 1) {
+        myCurrentIndex++;
+    } else {
+        myCurrentIndex = 0;
+    }
+
+    $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
+    $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
+    $("div.details").find(".description").text(myImages[myCurrentIndex].description);
+    $("div.details").find(".date").text(myImages[myCurrentIndex].date);
+}
+
+function prevPhoto() {
+    if (myCurrentIndex > 0) {
+        myCurrentIndex--;
+    } else {
+        myCurrentIndex = myImages.length - 1;
+    }
+
+    $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
+    $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
+    $("div.details").find(".description").text(myImages[myCurrentIndex].description);
+    $("div.details").find(".date").text(myImages[myCurrentIndex].date);
+}
+
 function swapPhoto() {
 
     if (myCurrentIndex < myImages.length - 1) {
@@ -47,12 +73,39 @@ function swapPhoto() {
         myCurrentIndex = 0;
     }
 
-        let img = $("#slideShow").find(".photoHolder").children("img").attr("src", myImages[myCurrentIndex].imgPath);
-        let location = $(".details").find(".location").text(myImages[myCurrentIndex].imgLocation);
-        let description = $(".details").find(".description").text(myImages[myCurrentIndex].description);
-        let date = $(".details").find(".date").text(myImages[myCurrentIndex].date);
-
+    $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
+    $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
+    $("div.details").find(".description").text(myImages[myCurrentIndex].description);
+    $("div.details").find(".date").text(myImages[myCurrentIndex].date);
 }
+
+$(document).ready(function () {
+
+    $("div.details").eq(0).hide();
+
+    $("#photo").width(518);
+    $("#photo").height(398);
+
+    $("#moreIndicator").click(function() {
+        if ($("#moreIndicator").hasClass("rot90")) {
+            $("#moreIndicator").removeClass("rot90");
+            $("div.details").fadeToggle("fast");
+            $("#moreIndicator").addClass("rot270");
+        } else {
+            $("#moreIndicator").removeClass("rot270");
+            $("div.details").fadeToggle("fast");
+            $("#moreIndicator").addClass("rot90");
+        }
+    });
+
+    $("#nextPhoto").click(function() {
+        nextPhoto();
+    });
+
+    $("#prevPhoto").click(function() {
+        prevPhoto();
+    });
+});
 
 function GalleryImage(imgLocation, description, date, imgPath) {
     this.imgLocation = imgLocation;
@@ -72,9 +125,9 @@ myRequest.onreadystatechange = function() {
         try {
             let myJson = JSON.parse(myRequest.responseText);
             console.log(myJson);
+
             for (let i = 0; i < myJson.images.length - 1; i++) {
-                let imageToAdd = new GalleryImage(myJson.images[i].imgPath, myJson.images[i].imgLocation,
-                    myJson.images[i].description, myJson.images[i].date);
+                let imageToAdd = new GalleryImage(myJson.images[i].imgPath, myJson.images[i].imgLocation, myJson.images[i].description, myJson.images[i].date);
                 imageToAdd.imgPath = myJson.images[i].imgPath;
                 imageToAdd.imgLocation = myJson.images[i].imgLocation;
                 imageToAdd.description = myJson.images[i].description;
