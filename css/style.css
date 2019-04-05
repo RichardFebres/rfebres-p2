@@ -36,14 +36,11 @@ body {
 	height: 50px;
 	width: 50px;
 	position: relative;
-    display: inline-block;
+    display: block;
+	margin: 0 auto;
 	z-index: 3;
-	opacity: .8;
+	opacity: 1;
 	top: -60px;
-}
-
-.moreIndicator:hover {
-	opacity: .3;
 }
 
 .thumbnail {

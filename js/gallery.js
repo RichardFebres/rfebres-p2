@@ -32,12 +32,9 @@ function animate() {
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
+let myImages = [];
+
 let myCurrentIndex = -1;
-
-window.addEventListener("load", function () {
-    console.log("Window Loaded");
-
-}, false);
 
 function nextPhoto() {
     if (myCurrentIndex !== myImages.length - 1) {
@@ -79,6 +76,12 @@ function swapPhoto() {
     $("div.details").find(".date").text(myImages[myCurrentIndex].date);
 }
 
+let json = [getQueryParams(window.location.search)];
+
+console.log(json);
+
+let myRequest = new XMLHttpRequest();
+
 $(document).ready(function () {
 
     $("div.details").eq(0).hide();
@@ -105,6 +108,7 @@ $(document).ready(function () {
     $("#prevPhoto").click(function() {
         prevPhoto();
     });
+
 });
 
 function GalleryImage(imgLocation, description, date, imgPath) {
@@ -114,11 +118,24 @@ function GalleryImage(imgLocation, description, date, imgPath) {
     this.imgPath = imgPath;
 }
 
-let myRequest = new XMLHttpRequest();
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    let params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+    return params;
+}
 
-let myUrl = "images.json";
+window.addEventListener("load", function () {
 
-let myImages = [];
+    myRequest.open("GET", json[0].json, true);
+    myRequest.send();
+
+}, false);
 
 myRequest.onreadystatechange = function() {
     if (myRequest.readyState === 4 && myRequest.status === 200) {
@@ -141,22 +158,3 @@ myRequest.onreadystatechange = function() {
         }
     }
 };
-
-function getQueryParams(qs) {
-    qs = qs.split("+").join(" ");
-    let params = {},
-        tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])]
-            = decodeURIComponent(tokens[2]);
-    }
-    return params;
-}
-
-let GET = getQueryParams(document.location.search);
-
-console.log(myRequest);
-
-myRequest.open("GET", myUrl, true);
-myRequest.send();
