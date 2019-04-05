@@ -1,0 +1,66 @@
+{
+  "images": [
+    {
+      "imgPath": "img/persona/Joker.jpg",
+      "imgLocation": "Persona 5",
+      "description": "World Arcana",
+      "date": "04/01/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Ryuuji.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Chariot Arcana",
+      "date": "04/02/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Ann.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Lovers Arcana",
+      "date": "04/03/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Yosuke.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Emperor Arcana",
+      "date": "04/04/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Futaba.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Hermit Arcana",
+      "date": "04/05/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Goro.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Justice Arcana",
+      "date": "04/06/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Morgana.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Magician Arcana",
+      "date": "04/07/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Haru.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Empress Arcana",
+      "date": "04/08/2019"
+      },
+
+      {
+      "imgPath": "img/persona/Makoto.jpg",
+      "imgLocation": "Persona 5",
+      "description": "Priestess Arcana",
+      "date": "04/09/2019"
+      }
+  ]
+}
