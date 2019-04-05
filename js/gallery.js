@@ -31,11 +31,13 @@ function animate() {
 }
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
-
+//Array to hold all GalleryImages
 let myImages = [];
 
+//Counter for image index
 let myCurrentIndex = -1;
 
+//Get next photo
 function nextPhoto() {
     if (myCurrentIndex !== myImages.length - 1) {
         myCurrentIndex++;
@@ -43,25 +45,28 @@ function nextPhoto() {
         myCurrentIndex = 0;
     }
 
+    //Change img and metadata according to index
     $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
     $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
     $("div.details").find(".description").text(myImages[myCurrentIndex].description);
     $("div.details").find(".date").text(myImages[myCurrentIndex].date);
 }
 
+//Get previous photo
 function prevPhoto() {
     if (myCurrentIndex > 0) {
         myCurrentIndex--;
     } else {
         myCurrentIndex = myImages.length - 1;
     }
-
+    //Change img and metadata according to index
     $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
     $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
     $("div.details").find(".description").text(myImages[myCurrentIndex].description);
     $("div.details").find(".date").text(myImages[myCurrentIndex].date);
 }
 
+//Swap photo automatically
 function swapPhoto() {
 
     if (myCurrentIndex < myImages.length - 1) {
@@ -69,19 +74,22 @@ function swapPhoto() {
     } else {
         myCurrentIndex = 0;
     }
-
+    //Change img and metadata according to index
     $("#photo").attr("src", myImages[myCurrentIndex].imgPath);
     $("div.details").find(".location").text(myImages[myCurrentIndex].imgLocation);
     $("div.details").find(".description").text(myImages[myCurrentIndex].description);
     $("div.details").find(".date").text(myImages[myCurrentIndex].date);
 }
 
+//Get url for routing
 let json = [getQueryParams(window.location.search)];
 
-console.log(json);
+// console.log(json);
 
+//Define XMLHttpRequest
 let myRequest = new XMLHttpRequest();
 
+//Initialize on click functionality and hide details on startup
 $(document).ready(function () {
 
     $("div.details").eq(0).hide();
@@ -89,6 +97,7 @@ $(document).ready(function () {
     $("#photo").width(518);
     $("#photo").height(398);
 
+    //Rotate indicator on click
     $("#moreIndicator").click(function() {
         if ($("#moreIndicator").hasClass("rot90")) {
             $("#moreIndicator").removeClass("rot90");
@@ -100,24 +109,24 @@ $(document).ready(function () {
             $("#moreIndicator").addClass("rot90");
         }
     });
-
+    //call nextPhoto on click
     $("#nextPhoto").click(function() {
         nextPhoto();
     });
-
+    //Call prevPhoto on click
     $("#prevPhoto").click(function() {
         prevPhoto();
     });
 
 });
-
+//Define constructor for GalleryImage
 function GalleryImage(imgLocation, description, date, imgPath) {
     this.imgLocation = imgLocation;
     this.description = description;
     this.date = date;
     this.imgPath = imgPath;
 }
-
+//Get params for routing
 function getQueryParams(qs) {
     qs = qs.split("+").join(" ");
     let params = {},
@@ -130,6 +139,7 @@ function getQueryParams(qs) {
     return params;
 }
 
+//Load url
 window.addEventListener("load", function () {
 
     myRequest.open("GET", json[0].json, true);
@@ -137,6 +147,7 @@ window.addEventListener("load", function () {
 
 }, false);
 
+//On state change fill myImages with GalleryImages and populate its detail fields
 myRequest.onreadystatechange = function() {
     if (myRequest.readyState === 4 && myRequest.status === 200) {
         try {
